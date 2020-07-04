@@ -100,7 +100,7 @@ startup
     // Constants
     // C:\<USER>\documents\my games\company of heroes 2\warnings.log
     vars.logFilename = System.IO.Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "documents", "my games", "company of heroes 2", "warnings.log");
-    vars.logFilename = @"E:\dev\livesplit\coh2-sp-campaign\test\warnings.log";
+    // vars.logFilename = @"E:\dev\livesplit\coh2-sp-campaign\test\warnings.log";
     vars.logFileReader = vars.CreateFileReader(vars.logFilename);
     vars.logFileLineQueue = new Queue<string>();
     vars.logFileLength = 0;
