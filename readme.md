@@ -24,12 +24,16 @@ Download [templates/coh2-sp-campaign.lss](templates/coh2-sp-campaign.lss) and lo
 - Beginning of a mission
 - Restarting of a mission (either via pause menu or by loading a savegame of the same mission)
 - Ending of a mission
-    > Please note that the timer remains paused until the next mission starts or the last mission ends. This allows restarting the mission or loading a savegame of the same mission to try again without advancing to the next mission.
+    > Please note that the timer remains paused until the next mission starts or the last mission ends. This allows restarting the mission or loading a savegame of the same mission to try again without advancing to the next split.
 - Loading time skipping 
 - "Game paused" skipping
 
-# Known issues / limitations / "Good to know"
+# Known issues & limitations 
+- The method used to detect the ending of the last mission will also trigger when restarting or loading a savegame of the last mission after starting it. Meaning that restarting or loading a savegame after starting the last mission will end the split.
+    - A fix for this issue is in progress.
 - The auto splitter may not react to pausing the game or any other action during the first 4 seconds after launching LiveSplit.
+
+# "Good to know"
 - In-game footage cinematic intro videos will not pause the LiveSplit timer. The user has to skip these sequences manually by pressing `Enter`.
 - Full-screen intro videos (no in-game footage) will automatically pause the timer, as the game is paused for the duration of the video.
 
