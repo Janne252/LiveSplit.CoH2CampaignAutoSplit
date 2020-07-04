@@ -3,6 +3,8 @@
 > Tested once on a full playthrough by [Chihuahua_Charity](url=https://www.twitch.tv/videos/669824853). 
 
 # Configuration & Setup
+Download [LiveSplit](https://livesplit.org/).
+
 ### Game
 Do not delete the game's cutscene video files. Deleting the video files seem to make the game behave in an unexpected way and might break this auto splitter.
 
