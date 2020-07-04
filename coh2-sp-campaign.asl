@@ -29,6 +29,33 @@ startup
         print("[CoH2 Autosplitter] " + text);
     });
     
+    vars.CreateFileReader = (Func<string, System.IO.StreamReader>)((string filename) => {
+        var stream = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        return new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
+    });
+
+    vars.ReadStreamLines = (Func<System.IO.StreamReader, string[]>)((System.IO.StreamReader reader) => {
+        var line = String.Empty;
+        var lines = new List<string>();
+        while ((line = reader.ReadLine()) != null)
+        {
+            lines.Add(line);
+        }
+        return lines.ToArray();
+    });
+
+    vars.GetNextLogLines = (Func<string[]>)(() => {
+        return vars.ReadStreamLines(vars.logFileReader);
+    });
+
+    vars.IsMissionBegin = (Func<string, string, bool>)((string line, string path) => {
+        return line.Contains("GAME -- Starting mission: " + path);
+    });
+
+    vars.IsMissionEnd = (Func<string, bool>)((string line) => {
+        return line.Contains("MOD -- Game Over at frame ");
+    });
+
     Action<string, string, string, string> AddLevelSplit = (key, name, description, parent) => {
         settings.Add(key, true, name, parent);
         settings.SetToolTip(key, description);
@@ -68,13 +95,23 @@ startup
         { 14, @"DATA:scenarios\sp\coh2_campaign\m14-the_reichstag\the_reichstag" },
     };
     vars.maxLevelID = System.Linq.Enumerable.Max(vars.missionScenarioPaths.Keys);
-
+    vars.DebugOutput("Configured " + vars.missionScenarioPaths.Count + " missions");
+    
+    // Constants
+    // C:\<USER>\documents\my games\company of heroes 2\warnings.log
+    vars.logFilename = System.IO.Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "documents", "my games", "company of heroes 2", "warnings.log");
+    vars.logFilename = @"E:\dev\livesplit\coh2-sp-campaign\test\warnings.log";
+    vars.logFileReader = vars.CreateFileReader(vars.logFilename);
+    vars.logFileLineQueue = new Queue<string>();
     vars.STATUS_WAIT_START = "wait_start";
-    vars.STATUS_WAIT_MISSION_BEGIN = "wait_begin";
-    vars.STATUS_WAIT_MISSION_END = "wait_end";
-    vars.STATUS_PAUSED = "game_paused";
+    vars.STATUS_WAIT_MISSION_BEGIN = "wait_mission_begin";
+    vars.STATUS_WAIT_MISSION_END = "wait_mission_end";
+    vars.STATUS_PAUSED = "game_game_paused";
     vars.PREVIOUS_STATUS = "";
     vars.STATUS = "";
+
+    // Mission progression
+    vars.currentMissionID = 0;
 
     vars.TrySetStatus = (Action<string>)((string status) => {
         if (vars.STATUS != status)
@@ -84,50 +121,8 @@ startup
             vars.DebugOutput("STATUS: " + status);
         }
     });
-    vars.TrySetStatus(vars.STATUS_WAIT_START);
 
-    vars.CreateFileReader = (Func<string, System.IO.StreamReader>)((string filename) => {
-        var stream = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        return new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
-    });
-
-    vars.DebugOutput("Configured " + vars.missionScenarioPaths.Count + " missions");
-    // C:\<USER>\documents\my games\company of heroes 2\warnings.log
-    vars.logFilename = System.IO.Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "documents", "my games", "company of heroes 2", "warnings.log");
-    // vars.logFilename = @"E:\dev\livesplit\coh2-sp-campaign\test\warnings.log";
-
-    // Mission progression
-    vars.currentMissionID = 0;
-
-    // Log file variables
-    vars.logFileReader = vars.CreateFileReader(vars.logFilename);
-    vars.logFileReaderForResetDetection = vars.CreateFileReader(vars.logFilename);
-    vars.logFileLineQueue = new Queue<string>();
-    vars.logLinesReadCount = 0;
-
-    vars.ReadStreamLines = (Func<System.IO.StreamReader, string[]>)((System.IO.StreamReader reader) => {
-        var line = String.Empty;
-        var lines = new List<string>();
-        while ((line = reader.ReadLine()) != null)
-        {
-            lines.Add(line);
-        }
-        return lines.ToArray();
-    });
-
-    vars.GetNextLogLines = (Func<string[]>)(() => {
-        return vars.ReadStreamLines(vars.logFileReader);
-    });
-
-    vars.IsMissionBegin = (Func<string, string, bool>)((string line, string path) => {
-        return line.Contains("GAME -- Starting mission: " + path);
-    });
-
-    vars.IsMissionEnd = (Func<string, bool>)((string line) => {
-        return line.Contains("MOD -- Game Over at frame ");
-    });
-
-    vars.ShouldAdvance = (Func<bool>)(() => {
+    vars.ProcessQueue = (Func<bool>)(() => {
         // No more missions to play
         if (vars.currentMissionID > vars.maxLevelID)
             return false;
@@ -138,7 +133,6 @@ startup
                 return false;
 
             var line = vars.logFileLineQueue.Dequeue();
-            vars.logLinesReadCount++;
 
             if (line.Contains("GAME -- SimulationController::Pause 0"))
             {
@@ -190,6 +184,9 @@ startup
             }
         }
     });
+
+    // Kick-off
+    vars.TrySetStatus(vars.STATUS_WAIT_START);
 }
 
 /*
@@ -249,23 +246,13 @@ start
 {
     if (vars.STATUS == vars.STATUS_WAIT_START)
     {
-        return vars.ShouldAdvance();
+        return vars.ProcessQueue();
     }
 }
 
 split
 {
-    /*
-     * Never split in the first few seconds, since starting an episode could
-     * immediately split under the right circumstan1ces.
-     */
-    if (timer.CurrentTime.RealTime < TimeSpan.FromSeconds(4))
-    {
-        return;
-    }
-
-
-    return vars.ShouldAdvance();
+    return vars.ProcessQueue();
 }
 
 isLoading
