@@ -10,6 +10,17 @@ namespace ConsoleApp1
 		static void Main(string[] args)
 		{
 			const string root = @"..\..\..\..\..\";
+			
+			//  Test code since we can't have proper IDE experience in .asl files
+			if (false)
+			{
+				using (var stream = System.IO.File.Open("dd", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+				using (var reader = new System.IO.StreamReader(stream))
+				{
+					reader.BaseStream.Seek(0, SeekOrigin.Begin);
+				}
+			}
+
 
 			var sourceLines = new Queue<string>(File.ReadAllLines(root + @"samples\warnings\full.log"));
 
@@ -28,6 +39,11 @@ namespace ConsoleApp1
 
 			Console.WriteLine("Press enter to exit...");
 			Console.ReadLine();
+
+			var p = (Action)(() =>
+			{
+
+			});
 		}
 	}
 }
