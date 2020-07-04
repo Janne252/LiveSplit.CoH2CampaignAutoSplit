@@ -25,16 +25,16 @@ state("RelicCoH2")
  */
 startup
 {
-	vars.DebugOutput = (Action<string>)((text) => {
-		print("[CoH2 Autosplitter] " + text);
-	});
+    vars.DebugOutput = (Action<string>)((text) => {
+        print("[CoH2 Autosplitter] " + text);
+    });
     
-	Action<string, string, string, string> AddLevelSplit = (key, name, description, parent) => {
-		settings.Add(key, true, name, parent);
-		settings.SetToolTip(key, description);
-	};
+    Action<string, string, string, string> AddLevelSplit = (key, name, description, parent) => {
+        settings.Add(key, true, name, parent);
+        settings.SetToolTip(key, description);
+    };
 
-	settings.Add("campaign", true, "Campaign");
+    settings.Add("campaign", true, "Campaign");
     AddLevelSplit("m_01", "M.01 Stalingrad Rail Station", "", "campaign");
     AddLevelSplit("m_02", "M.02 Scorched Earth", "", "campaign");
     AddLevelSplit("m_03", "M.03 Support is on the way", "", "campaign");
@@ -50,23 +50,23 @@ startup
     AddLevelSplit("m_13", "M.13 Halbe", "", "campaign");
     AddLevelSplit("m_14", "M.14 The Reichstag", "", "campaign");
 
-	vars.missionScenarioPaths = new Dictionary<int, string> {
+    vars.missionScenarioPaths = new Dictionary<int, string> {
         { 0, "" },
-		{ 1,  @"DATA:scenarios\sp\coh2_campaign\m01-stalingrad_rail_station\stalingrad_rail_station" },
-		{ 2,  @"DATA:scenarios\sp\coh2_campaign\m02-scorched_earth\scorched_earth" },
-		{ 3,  @"DATA:scenarios\sp\coh2_campaign\m03-moscow_outskirts\moscow_outskirts" },
-		{ 4,  @"DATA:scenarios\sp\coh2_campaign\m04-kaluga\kaluga" },
-		{ 5,  @"DATA:scenarios\sp\coh2_campaign\m05-stalingrad\stalingrad" },
-		{ 6,  @"DATA:scenarios\sp\coh2_campaign\m06-stalingrad_injury\stalingrad_injury" },
-		{ 7,  @"DATA:scenarios\sp\coh2_campaign\m07-shlisselburg\shlisselburg" },
-		{ 8,  @"DATA:scenarios\sp\coh2_campaign\m08-tiger_hunting\tiger_hunting" },
-		{ 9,  @"DATA:scenarios\sp\coh2_campaign\m09-bagration\orsha" },
-		{ 10, @"DATA:scenarios\sp\coh2_campaign\m10-lublin\lublin" },
-		{ 11, @"DATA:scenarios\sp\coh2_campaign\m11-behind_enemy_lines\german_lines" },
-		{ 12, @"DATA:scenarios\sp\coh2_campaign\m12-poznan\poznan" },
-		{ 13, @"DATA:scenarios\sp\coh2_campaign\m13-halbe\halbe" },
-		{ 14, @"DATA:scenarios\sp\coh2_campaign\m14-the_reichstag\the_reichstag" },
-	};
+        { 1,  @"DATA:scenarios\sp\coh2_campaign\m01-stalingrad_rail_station\stalingrad_rail_station" },
+        { 2,  @"DATA:scenarios\sp\coh2_campaign\m02-scorched_earth\scorched_earth" },
+        { 3,  @"DATA:scenarios\sp\coh2_campaign\m03-moscow_outskirts\moscow_outskirts" },
+        { 4,  @"DATA:scenarios\sp\coh2_campaign\m04-kaluga\kaluga" },
+        { 5,  @"DATA:scenarios\sp\coh2_campaign\m05-stalingrad\stalingrad" },
+        { 6,  @"DATA:scenarios\sp\coh2_campaign\m06-stalingrad_injury\stalingrad_injury" },
+        { 7,  @"DATA:scenarios\sp\coh2_campaign\m07-shlisselburg\shlisselburg" },
+        { 8,  @"DATA:scenarios\sp\coh2_campaign\m08-tiger_hunting\tiger_hunting" },
+        { 9,  @"DATA:scenarios\sp\coh2_campaign\m09-bagration\orsha" },
+        { 10, @"DATA:scenarios\sp\coh2_campaign\m10-lublin\lublin" },
+        { 11, @"DATA:scenarios\sp\coh2_campaign\m11-behind_enemy_lines\german_lines" },
+        { 12, @"DATA:scenarios\sp\coh2_campaign\m12-poznan\poznan" },
+        { 13, @"DATA:scenarios\sp\coh2_campaign\m13-halbe\halbe" },
+        { 14, @"DATA:scenarios\sp\coh2_campaign\m14-the_reichstag\the_reichstag" },
+    };
     vars.maxLevelID = System.Linq.Enumerable.Max(vars.missionScenarioPaths.Keys);
 
     vars.STATUS_WAIT_START = "wait_start";
@@ -87,8 +87,8 @@ startup
     vars.TrySetStatus(vars.STATUS_WAIT_START);
 
     vars.CreateFileReader = (Func<string, System.IO.StreamReader>)((string filename) => {
-    	var stream = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-    	return new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
+        var stream = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        return new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
     });
 
     vars.DebugOutput("Configured " + vars.missionScenarioPaths.Count + " missions");
@@ -100,23 +100,23 @@ startup
     vars.currentMissionID = 0;
 
     // Log file variables
-	vars.logFileReader = vars.CreateFileReader(vars.logFilename);
+    vars.logFileReader = vars.CreateFileReader(vars.logFilename);
     vars.logFileReaderForResetDetection = vars.CreateFileReader(vars.logFilename);
     vars.logFileLineQueue = new Queue<string>();
     vars.logLinesReadCount = 0;
 
     vars.ReadStreamLines = (Func<System.IO.StreamReader, string[]>)((System.IO.StreamReader reader) => {
-    	var line = String.Empty;
-    	var lines = new List<string>();
-    	while ((line = reader.ReadLine()) != null)
+        var line = String.Empty;
+        var lines = new List<string>();
+        while ((line = reader.ReadLine()) != null)
         {
-    		lines.Add(line);
+            lines.Add(line);
         }
         return lines.ToArray();
     });
 
     vars.GetNextLogLines = (Func<string[]>)(() => {
-    	return vars.ReadStreamLines(vars.logFileReader);
+        return vars.ReadStreamLines(vars.logFileReader);
     });
 
     vars.IsMissionBegin = (Func<string, string, bool>)((string line, string path) => {
@@ -215,7 +215,7 @@ reset
  */
 exit
 {
-	timer.IsGameTimePaused = true;
+    timer.IsGameTimePaused = true;
 }
 
 /*
@@ -235,34 +235,34 @@ update
     {
         vars.DebugOutput((vars.logFileLineQueue.Count - countBefore) + " lines added to queue");
     }
-	/*
-	 * This Action is special, because if you explicitly return false from it
-	 * the other Timer Control Actions (start, reset, split, ..) won't be run.
-	 *
-	 * In this case this is used to disable the Autosplitter for unknown game
-	 * versions.
-	 */
-	return true;
+    /*
+     * This Action is special, because if you explicitly return false from it
+     * the other Timer Control Actions (start, reset, split, ..) won't be run.
+     *
+     * In this case this is used to disable the Autosplitter for unknown game
+     * versions.
+     */
+    return true;
 }
 
 start
 {
     if (vars.STATUS == vars.STATUS_WAIT_START)
     {
-	    return vars.ShouldAdvance();
+        return vars.ShouldAdvance();
     }
 }
 
 split
 {
-	/*
-	 * Never split in the first few seconds, since starting an episode could
-	 * immediately split under the right circumstan1ces.
-	 */
-	if (timer.CurrentTime.RealTime < TimeSpan.FromSeconds(4))
-	{
-		return;
-	}
+    /*
+     * Never split in the first few seconds, since starting an episode could
+     * immediately split under the right circumstan1ces.
+     */
+    if (timer.CurrentTime.RealTime < TimeSpan.FromSeconds(4))
+    {
+        return;
+    }
 
 
     return vars.ShouldAdvance();
@@ -270,6 +270,6 @@ split
 
 isLoading
 {
-	return vars.STATUS == vars.STATUS_WAIT_MISSION_BEGIN || vars.STATUS == vars.STATUS_PAUSED;
+    return vars.STATUS == vars.STATUS_WAIT_MISSION_BEGIN || vars.STATUS == vars.STATUS_PAUSED;
 }
 
