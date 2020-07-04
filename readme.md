@@ -5,10 +5,10 @@ Download [templates/coh2-sp-campaign.lss](templates/coh2-sp-campaign.lss) and lo
 - Right-click LiveSplit, Select `Open Splits` -> `From file...`, and choose the downloaded `coh2-sp-campaign.lss`.
 
 ### Layout
-1. Right-click LiveSplit and select `Edit Layout...`
-1. Set `Timer` section `Timing Method` to `Game Time`.
-1. Set `Splits` section `Timing Method` to `Game Time` for all columns.
-1. Add `Scriptable Auto Splitter`. Download [coh2-sp-campaign.asl](coh2-sp-campaign.asl) and choose the downloaded `coh2-sp-campaign.asl` as `Script Path`. 
+- Right-click LiveSplit and select `Edit Layout...`
+    1. Set `Timer` section `Timing Method` to `Game Time`.
+    1. Set `Splits` section `Timing Method` to `Game Time` for all columns.
+    1. Add `Scriptable Auto Splitter`. Download [coh2-sp-campaign.asl](coh2-sp-campaign.asl) and choose the downloaded `coh2-sp-campaign.asl` as `Script Path`. 
 
 # Instructions & Usage
 **Complete these steps when: Starting a new run OR restarting an entire run**
