@@ -1,5 +1,7 @@
 > This Auto splitter is currently under development - there's still some [testing](#testing) to do. Couple of [known issues & limitations](#Known-issues--limitations) are present as well.
 
+> Tested once on a full playthrough by [Chihuahua_Charity](url=https://www.twitch.tv/videos/669824853). 
+
 # Configuration & Setup
 ### Game
 Do not delete the game's cutscene video files. Deleting the video files seem to make the game behave in an unexpected way and might break this auto splitter.
@@ -45,5 +47,5 @@ Download [templates/coh2-sp-campaign.lss](templates/coh2-sp-campaign.lss) and lo
 - [x] Restart mission and load a savegame of the same mission
 - [ ] Full load & quit test of all missions
 - [ ] Full load savegame & complete of all missions
-- [ ] Full playthrough
+- [x] Full playthrough
 - [ ] Does the AutoSplit timer pause during a campaign autosave? 
