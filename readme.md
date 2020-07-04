@@ -37,6 +37,7 @@ Download [templates/coh2-sp-campaign.lss](templates/coh2-sp-campaign.lss) and lo
 # "Good to know"
 - In-game footage cinematic intro videos will not pause the LiveSplit timer. The user has to skip these sequences manually by pressing `Enter`.
 - Full-screen intro videos (no in-game footage) will automatically pause the timer, as the game is paused for the duration of the video.
+- If the game restarts (due to user action or a crash), which resets `warnings.log` file, the auto splitter will jump to the beginning of the log file and continue normally to wait for the next trigger, i.e. mission begin or end. The timer will not pause.
 
 # Testing
 - [x] Simulated log output test of all missions
