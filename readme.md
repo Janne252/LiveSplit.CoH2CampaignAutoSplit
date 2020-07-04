@@ -1,3 +1,4 @@
+> This Auto splitter is currently under development - there's still some [testing](#testing) to do. Couple of [known issues & limitations](#Known-issues--limitations) are present as well.
 
 # Configuration & Setup
 ### Game
