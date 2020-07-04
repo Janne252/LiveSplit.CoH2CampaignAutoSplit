@@ -33,7 +33,6 @@ Download [templates/coh2-sp-campaign.lss](templates/coh2-sp-campaign.lss) and lo
 # Known issues & limitations 
 - The method used to detect the ending of the last mission will also trigger when restarting or loading a savegame of the last mission after starting it. Meaning that restarting or loading a savegame after starting the last mission will end the split.
     - A fix for this issue is in progress.
-- The auto splitter may not react to pausing the game or any other action during the first 4 seconds after launching LiveSplit.
 
 # "Good to know"
 - In-game footage cinematic intro videos will not pause the LiveSplit timer. The user has to skip these sequences manually by pressing `Enter`.
