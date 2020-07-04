@@ -1,5 +1,8 @@
 
 # Configuration & Setup
+### Game
+Do not delete the game's cutscene video files. Deleting the video files seem to make the game behave in an unexpected way and might break this auto splitter.
+
 ### Splits
 Download [templates/coh2-sp-campaign.lss](templates/coh2-sp-campaign.lss) and load it to LiveSplit:
 - Right-click LiveSplit, Select `Open Splits` -> `From file...`, and choose the downloaded `coh2-sp-campaign.lss`.
@@ -8,7 +11,7 @@ Download [templates/coh2-sp-campaign.lss](templates/coh2-sp-campaign.lss) and lo
 - Right-click LiveSplit and select `Edit Layout...`
     1. Set `Timer` section `Timing Method` to `Game Time`.
     1. Set `Splits` section `Timing Method` to `Game Time` for all columns.
-    1. Add `Scriptable Auto Splitter`. Download [coh2-sp-campaign.asl](coh2-sp-campaign.asl) and choose the downloaded `coh2-sp-campaign.asl` as `Script Path`. 
+    1. Add `Scriptable Auto Splitter` via the **`(+)`** button. Download [coh2-sp-campaign.asl](coh2-sp-campaign.asl) and choose the downloaded `coh2-sp-campaign.asl` as `Script Path`. 
 
 # Instructions & Usage
 **Complete these steps when: Starting a new run OR restarting an entire run**
