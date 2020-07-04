@@ -103,6 +103,7 @@ startup
     vars.logFilename = @"E:\dev\livesplit\coh2-sp-campaign\test\warnings.log";
     vars.logFileReader = vars.CreateFileReader(vars.logFilename);
     vars.logFileLineQueue = new Queue<string>();
+    vars.logFileLength = 0;
     vars.STATUS_WAIT_START = "wait_start";
     vars.STATUS_WAIT_MISSION_BEGIN = "wait_mission_begin";
     vars.STATUS_WAIT_MISSION_END = "wait_mission_end";
@@ -227,6 +228,23 @@ update
     {
         vars.logFileLineQueue.Enqueue(line);
     }
+
+    // If the log file length suddendly decreases (game restart)
+    if (vars.logFileReader.BaseStream.Length < vars.logFileLength)
+    {
+        // Reset stream to 0
+        vars.logFileReader.BaseStream.Seek(0, System.IO.SeekOrigin.Begin);
+        vars.DebugOutput("Log file reset detected - setting stream position to 0");
+
+        // Reset status to a safe value
+        if (vars.STATUS == vars.STATUS_PAUSED)
+        {
+            vars.STATUS = vars.PREVIOUS_STATUS;
+            vars.DebugOutput("Game was paused, reverting back to status " + vars.STATUS);
+        }
+    }
+
+    vars.logFileLength = vars.logFileReader.BaseStream.Length;
 
     if (countBefore < vars.logFileLineQueue.Count)
     {
