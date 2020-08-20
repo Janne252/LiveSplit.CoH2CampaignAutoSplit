@@ -1,4 +1,4 @@
-> This Auto splitter is currently under development - there's still some [testing](#testing) to do. Couple of [known issues & limitations](#Known-issues--limitations) are present as well.
+> This Auto splitter is considered feature complete for now - most of the features are well [tested](#testing). See [known issues & limitations](#Known-issues--limitations). Changes and or fixes will be provided per request.
 
 > Tested once on a full playthrough by [Chihuahua_Charity](url=https://www.twitch.tv/videos/669824853). 
 
