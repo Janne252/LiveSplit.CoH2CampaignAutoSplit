@@ -26,7 +26,7 @@ Download [templates/coh2-sp-campaign.lss](templates/coh2-sp-campaign.lss) and lo
 1. Start or restart LiveSplit
 1. Start playing the single player campaign.
 
-# Features
+# Features & detected game events
 - Beginning of a mission
 - Restarting of a mission (either via pause menu or by loading a savegame of the same mission)
 - Ending of a mission
